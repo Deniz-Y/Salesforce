@@ -1,0 +1,36 @@
+<apex:page standardController="Account" extensions="PrimaryContact">
+<apex:messages id="message"/>
+<apex:form >
+<apex:pageBlock title="Account Primary Contact">
+    <apex:pageBlockSection columns="2">
+        <apex:inputField value="{! Account.Name }"/>
+        <apex:inputField value="{! Account.Type}"/>
+        <apex:inputField value="{! Account.Phone }"/>
+        <apex:inputField value="{! Account.AccountNumber }"/>
+        <apex:inputField value="{! Account.Active__c}"/>
+        <apex:inputField value="{! Account.Fax}"/>
+    </apex:pageBlockSection>
+    <apex:pageBlockButtons >
+        <apex:commandButton action="{! save }" value="Save" />
+        <apex:commandButton action="{! cancel }" value="Cancel" />
+    </apex:pageBlockButtons>
+</apex:pageBlock>
+<apex:pageBlock title="Search related contacts">
+    <apex:inputText id="searchBox" value="{!searchValue}" />
+    <apex:commandButton id="submit" value="Search" action="{!searchContacts}" />
+</apex:pageBlock>
+<apex:pageBlock title="Related Contacts">
+    <apex:pageBlockTable value="{!contacts}" var="contact">
+        <apex:column value="{!contact.Name}"/>
+        <apex:column value="{!contact.Title}"/>
+        <apex:column value="{!contact.Phone}"/>
+        <apex:column value="{!contact.Is_Primary_Contact__c}"/>
+        <apex:column> 
+            <apex:commandLink action="{!setPrimary}" onclick="return confirm('Do you want to proceed?');"  value="Set Primary Contact"  >
+                <apex:param name="setPrimary" value="{!contact.Id}" assignTo="{!selectedContactId}"/>
+            </apex:commandLink>
+        </apex:column> 
+    </apex:pageBlockTable>
+</apex:pageBlock>
+</apex:form>
+</apex:page>
