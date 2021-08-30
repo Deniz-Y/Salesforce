@@ -47,6 +47,7 @@ public with sharing class PrimaryContact {
     * I again call getContacts() method to show new contacts.
     */
     public void setPrimary() {
+        try {
         List<Contact> contactsToUpdate = [SELECT Id, Name, Title, Phone, Is_Primary_Contact__c 
                 FROM Contact 
                 WHERE AccountId =: this.account.Id ];
@@ -60,5 +61,9 @@ public with sharing class PrimaryContact {
         }
         update contactsToUpdate;
         getContacts();
+        }catch (Exception ex){
+        system.debug(ex);
+        ApexPages.addMessage(new  ApexPages.Message( ApexPages.severity.FATAL,'ERROR!') );
         }
+    }  
 }
